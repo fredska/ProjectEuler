@@ -18,6 +18,8 @@ public class Sieve_of_Eratosthenes {
 			while(p < primes.length && !primes[p])
 				p++;
 		}
+		primes[0] = false;
+		primes[1] = false;
 		return primes;
 	}
 }
