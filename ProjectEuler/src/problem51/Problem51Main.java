@@ -1,5 +1,10 @@
 package problem51;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import utils.common.Sieve_of_Eratosthenes;
+
 /**
  * By replacing the 1st digit of the 2-digit number *3, it turns out that six of
  * the nine possible values: 13, 23, 43, 53, 73, and 83, are all prime.
@@ -20,5 +25,27 @@ package problem51;
 public class Problem51Main {
 
 	public static void main(String[] args) {
+		boolean[] primes = Sieve_of_Eratosthenes.getPrimesToLimit(1000000);
+		List<Integer> primesEndWithOne = new ArrayList<Integer>();
+		List<Integer> primesEndWithThree = new ArrayList<Integer>();
+		List<Integer> primesEndWithSeven = new ArrayList<Integer>();
+		List<Integer> primesEndWithNine = new ArrayList<Integer>();
+		
+		for(int i = 0; i < primes.length; i++){
+			if(primes[i]){
+				if((i % 10) == 1)
+					primesEndWithOne.add(i);
+				if((i % 10) == 3)
+					primesEndWithThree.add(i);
+				if((i % 10) == 7)
+					primesEndWithSeven.add(i);
+				if((i % 10) == 9)
+					primesEndWithNine.add(i);
+			}
+		}
+		
+		System.out.println("Finish!");
 	}
+	
+	
 }

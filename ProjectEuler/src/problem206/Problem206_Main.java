@@ -1,8 +1,6 @@
 package problem206;
 
-import java.util.Date;
 import java.util.Calendar;
-import java.util.Timer;
 
 public class Problem206_Main {
 
@@ -16,34 +14,6 @@ public class Problem206_Main {
 	public static void main(String[] args) {
 		AlternateMethod am = new AlternateMethod();
 		am.alternate();
-		/*
-		String[] nums = new String[]{"0","0","0","0","0","0","0","0","0"};
-		final String[] constant = new String[]{"1","2","3","4","5","6","7","8","9","0"};
-		Calendar startTime = Calendar.getInstance();
-		startTime.get(Calendar.MILLISECOND);
-		Calendar currentTime = startTime;
-		Calendar markTime = startTime;
-		int numOfRecordCheck = 50000;
-		for(int a=0; a < TOTAL_RECORDS; a++)
-		{
-			if(checkSquareRoot(nums, constant))
-				{
-					System.out.println("We have a winner!");
-					System.out.println(toString(nums, constant));
-					break;
-				}
-			nums = returnArray(nums, 1l);
-			if((a % numOfRecordsProcessed) == 0)
-			{
-				currentTime = Calendar.getInstance();
-				long milliseconds = currentTime.getTimeInMillis() - markTime.getTimeInMillis();
-				checkTimeLeft(markTime, currentTime, a);
-				markTime = currentTime;
-				
-			}
-			//System.out.println(toString(nums));
-		}
-		*/
 	}
 	
 	public static void checkTimeLeft(Calendar markTime, Calendar currentTime, int numOfRecordsProcessed)
@@ -134,18 +104,4 @@ public class Problem206_Main {
 		
 		return sb.toString();
 	}
-	
-	private static String toString(String[] nums, String[] constant)
-	{
-		StringBuilder sb = new StringBuilder();
-		for(int a = 0; a < nums.length; a++)
-		{
-			sb.append(constant[a]);
-			sb.append(nums[a]);
-		}
-		//Tack on the last number from the constant's array
-		sb.append(constant[9]);
-		return sb.toString();
-	}
-
 }
