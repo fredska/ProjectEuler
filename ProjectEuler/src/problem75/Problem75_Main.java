@@ -67,15 +67,17 @@ public class Problem75_Main {
 		//Value: Number of triangles the length of wire can make
 		List<RightSidedTriangle> allRightTriangles = new ArrayList<RightSidedTriangle>();
 		//sqrt(1500000) =~ 1225
+		Set<Long> hypotenuseValues = new HashSet<Long>();
+		for(long i = 1; i < bMax*2; i++){
+			hypotenuseValues.add(i * i);
+		}
 		int c;
 		for(int b = 1; b < bMax; b++){
 			for(int a = 1; a <= b; a++){
 				long cSquare = (a * a) + (b * b);
-				if((c = ((int)Math.sqrt(cSquare))) == Math.sqrt(cSquare)){
-					allRightTriangles.add(new RightSidedTriangle(a, b, c));
+				if(hypotenuseValues.contains(cSquare)){
+					allRightTriangles.add(new RightSidedTriangle(a, b, (int)Math.sqrt(cSquare)));
 				}
-				if(c < 0)
-					System.err.println("Error Error!  Square Root is negative!");
 			}
 			if((b % 100) == 0)
 				System.out.println("Check: " + b);

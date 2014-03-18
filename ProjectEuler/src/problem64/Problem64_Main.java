@@ -11,8 +11,7 @@ public class Problem64_Main {
 	
 	public void run(){
 		BigDecimal bd = new BigDecimal(1.0);
-//		int[] period = getSquareRootPeriod(23);
-		int[] period;// = getSquareRootPeriod(Math.sqrt(2));
+		int[] period;
 		int result = 0;
 		for(int i = 2; i <= 10000; i++){
 			//If the value is a perfect square root,
@@ -53,16 +52,9 @@ public class Problem64_Main {
 		//Initial pass:
 		int base = (int) tmpValue;
 		result[0] = base;
-		// a0 = base, 1 / (sqrt - addedNum);
 		numerator = 1;
 		denominator = -base;
 		for(int i = 1; i < result.length; i++){
-//			printSquareRootPeriod(i, base, result.length);
-			
-			//Old, easy, broken way
-			//Broken because the number of decimal places a double holds is limited
-			//tmpValue = 1 / (tmpValue - base);
-			
 			//New, awesome, CORRECT way
 			int tmpNumerator = numerator;
 			int tmpDenominator = denominator;
@@ -72,15 +64,6 @@ public class Problem64_Main {
 			result[i] = base;
 		}
 		return result;
-	}
-	
-	private void printSquareRootPeriod(int i, int base, int resultLength){
-		if (i == 0) {
-			System.out.print(base + ";(");
-		} else if (i == (resultLength - 1))
-			System.out.println(base + ")]");
-		else
-			System.out.print(base + ",");
 	}
 	
 	public int findPeriodRepeatingLength(int[] period){
@@ -109,9 +92,7 @@ public class Problem64_Main {
 		}
 		for(int i = 0; i < period.length; i++){
 			if(period[i] != newPeriod[i]) return false;
-		}
-		
+		}	
 		return true;
 	}
-
 }

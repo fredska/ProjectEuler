@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import problem102.Triangle;
+
 /**
  * 
  Triangle, square, pentagonal, hexagonal, heptagonal, and octagonal numbers
@@ -32,291 +34,118 @@ import java.util.List;
  * 
  */
 public class Problem_61 {
-
-	private List<Long> triangles, squares, pentagonals, hexagonals,
-			heptagonals, octagonals;
-
-	public static void main(String[] args) {
-		new Problem_61().run();
+	
+	public static void main(String[] args){
+		Problem_61 problem = new Problem_61();
+		problem.run();
 	}
-
-	public void run() {
-		initialize();
-		OrderedSet finalSet = new OrderedSet();
-		for(Long triangle : triangles){
-			finalSet = new OrderedSet();
-			finalSet.setTriangle(triangle);
-			recursiveLoop(finalSet);
-			if(finalSet.triangleUsed 
-					&& finalSet.squareUsed 
-					&& finalSet.pentagonalUsed
-					&& finalSet.hexagonalUsed
-					&& finalSet.heptagonalUsed
-					&& finalSet.octagonalUsed)
-				break;
-		}
-		System.out.println("Done...");
-		System.out.println(finalSet.triangle + " :: " + finalSet.square + " :: " + finalSet.pentagonal);
-	}
-
-	public void recursiveLoop(OrderedSet orderSet) {
-		if (orderSet.isComplete()) {
-			System.out.println(orderSet.triangle + " :: " + orderSet.square
-					+ " :: " + orderSet.pentagonal + " :: "
-					+ orderSet.hexagonal + " :: " + orderSet.heptagonal
-					+ " :: " + orderSet.octagonal);
-		}
-		if (!orderSet.triangleUsed) {
-			for(Long triangle : triangles){
-				orderSet.setTriangle(triangle);
-				if(orderSet.triangleUsed)
-					recursiveLoop(orderSet);
-			}
-		}
-		if(!orderSet.squareUsed){
-			for(Long square : squares){
-				orderSet.setSquare(square);
-				if(orderSet.squareUsed)
-					recursiveLoop(orderSet);
-			}
-		}
-		if(!orderSet.pentagonalUsed){
-			for(Long pentagonal : pentagonals){
-				orderSet.setPentagonal(pentagonal);
-				if(orderSet.pentagonalUsed)
-					recursiveLoop(orderSet);
-			}
-		}
-		if(!orderSet.heptagonalUsed){
-			for(Long square : hexagonals){
-				orderSet.setHexagonal(square);
-				if(orderSet.heptagonalUsed)
-					recursiveLoop(orderSet);
-			}
-		}
-		if(!orderSet.heptagonalUsed){
-			for(Long heptagonal : heptagonals){
-				orderSet.setHeptagonal(heptagonal);
-				if(orderSet.heptagonalUsed)
-					recursiveLoop(orderSet);
-			}
-		}
-		if(!orderSet.octagonalUsed){
-			for(Long octagonal : octagonals){
-				orderSet.setOctagonal(octagonal);
-				if(orderSet.octagonalUsed)
-					recursiveLoop(orderSet);
-			}
-		}
-		return;
-	}
-
-	private class OrderedSet {
-		public int p3n, p4n, p5n, p6n, p7n, p8n;
-		public long triangle, square, pentagonal, hexagonal, heptagonal,
-				octagonal;
-		public boolean triangleUsed, squareUsed, pentagonalUsed, hexagonalUsed,
-				heptagonalUsed, octagonalUsed;
-
-		public OrderedSet() {
-			p3n = p4n = p5n = p6n = p7n = p8n = -1;
-			triangle = square = pentagonal = hexagonal = heptagonal = octagonal = -1;
-		}
-
-		public boolean isComplete() {
-			return triangleUsed && squareUsed && pentagonalUsed
-					&& hexagonalUsed && heptagonalUsed && octagonalUsed;
+	
+	int result = Integer.MAX_VALUE;
+	int[] solution;
+	Integer[][] numbers;
+	
+	public void run(){
+		result =0;
+		solution = new int[6];
+		numbers = new Integer[6][];
+		
+		for(int i = 0; i < 6; i++){
+			numbers[i] = generateNumbers(i);
 		}
 		
-		public boolean checkIfLast(){
-			int result = 0;
-			if(triangleUsed) result++;
-			if(squareUsed) result++;
-			if(pentagonalUsed) result++;
-			if(hexagonalUsed) result++;
-			if(heptagonalUsed) result++;
-			if(octagonalUsed) result++;
-			
-			return result == 1;
+		for(int i = 0; i < numbers[5].length; i++){
+			solution[5] = numbers[5][i];
+			if(findNext(5,1)) break;
 		}
-
-		public void setTriangle(long triangle) {
-			if (triangle == this.square || triangle == this.pentagonal
-					|| triangle == this.heptagonal
-					|| triangle == this.hexagonal || triangle == this.octagonal)
-				return;
-			this.triangle = triangle;
-			this.triangleUsed = true;
+		for(int i = 0; i < solution.length; i++){
+			result += solution[i];
+			System.out.print(solution[i] + " :: ");
 		}
-
-		public void setSquare(long square) {
-			if (square == triangle)
-				return;
-			if (compareValue(triangle, square)) {
-				this.squareUsed = true;
-				this.square = square;
-			}
-		}
-
-		public void setPentagonal(long pentagonal) {
-			if (this.triangle == pentagonal || this.square == pentagonal)
-				return;
-			if (compareValue(square, pentagonal)) {
-				this.pentagonalUsed = true;
-				this.pentagonal = pentagonal;
-			}
-		}
-
-		public void setHexagonal(long hexagonal) {
-			if (this.triangle == hexagonal || this.square == hexagonal
-					|| this.pentagonal == hexagonal)
-				return;
-			if (compareValue(pentagonal, hexagonal)) {
-				this.hexagonalUsed = true;
-				this.hexagonal = hexagonal;
-			}
-		}
-
-		public void setHeptagonal(long heptagonal) {
-			if (this.triangle == heptagonal || this.square == heptagonal
-					|| this.pentagonal == heptagonal
-					|| this.hexagonal == heptagonal)
-				return;
-			if (compareValue(hexagonal, heptagonal)) {
-				this.heptagonalUsed = true;
-				this.heptagonal = heptagonal;
-			}
-		}
-
-		public void setOctagonal(long octagonal) {
-			if (this.triangle == octagonal || this.square == octagonal
-					|| this.pentagonal == octagonal
-					|| this.hexagonal == octagonal
-					|| this.heptagonal == octagonal)
-				return;
-
-			if (compareValue(heptagonal, octagonal)) {
-				if(!checkIfLast() || compareValue(octagonal, triangle))
-				this.octagonalUsed = true;
-				this.octagonal = octagonal;
-			}
-		}
+		System.out.println("");
+		System.out.println("Done! "+ result);
 	}
-
-	private List<Long> compareGroups(List<Long> groupA, List<Long> groupB) {
-		List<Long> roundCombo = new LinkedList<Long>();
-		for (int a = 0; a < groupA.size(); a++) {
-			for (int b = 0; b < groupB.size(); b++) {
-				if (compareValue(groupA.get(a), groupB.get(b))) {
-					if (!roundCombo.contains(groupB.get(b)))
-						roundCombo.add(groupB.get(b));
+	
+	public boolean findNext(int last, int length){
+		for(int i  = 0; i < solution.length; i++){
+			if(solution[i] != 0) continue;
+			for(int j = 0; j < numbers[i].length; j++){
+				boolean unique = true;
+				for(int k = 0; k < solution.length; k++){
+					if(numbers[i][j] == solution[k]){
+						unique = false;
+						break;
+					}
+				}
+				
+				if(unique &&
+						numbers[i][j] / 100 == solution[last] % 100) {
+					solution[i] = numbers[i][j];
+					if(length == 5){
+						if(solution[5] / 100 == solution[i] % 100){
+							return true;
+						}
+					}
+					if(findNext(i, length + 1)) return true;
 				}
 			}
+			solution[i] = 0;
 		}
-		return roundCombo;
+		return false;
 	}
-
-	private List<Long> reverseCompareGroups(List<Long> groupA, List<Long> groupB) {
-		List<Long> roundCombo = new LinkedList<Long>();
-		for (int a = 0; a < groupA.size(); a++) {
-			for (int b = 0; b < groupB.size(); b++) {
-				if (reverseCompareValue(groupA.get(a), groupB.get(b))) {
-					if (!roundCombo.contains(groupB.get(b)))
-						roundCombo.add(groupB.get(b));
-				}
-			}
-		}
-		return roundCombo;
-	}
-
-	private boolean compareValue(long a, long b) {
-		return (a / 100) == (b % 100);
-	}
-
-	private boolean reverseCompareValue(long a, long b) {
-		return (a % 100) == (b / 100);
-	}
-
-	private void initialize() {
-		triangles = new LinkedList<Long>();
-		squares = new LinkedList<Long>();
-		pentagonals = new LinkedList<Long>();
-		hexagonals = new LinkedList<Long>();
-		heptagonals = new LinkedList<Long>();
-		octagonals = new LinkedList<Long>();
-
-		// Move all the values into their own List
-		for (int a = 0; a < 6; a++) {
-			int i = 1;
-			long value = 0;
-			switch (a) {
+	
+	private Integer[] generateNumbers(int index){
+		List<Integer> results = new ArrayList<Integer>();
+		int n = 0;
+		int number = 0;
+		while(number < 10000){
+			switch(index){
 			case 0:
-				while ((value = triangle(i)) < 10000) {
-					if (value >= 1000)
-						triangles.add(value);
-					i++;
-				}
+				number = triangle(n);
 				break;
 			case 1:
-				while ((value = square(i)) < 10000) {
-					if (value >= 1000)
-						squares.add(value);
-					i++;
-				}
+				number = square(n);
 				break;
 			case 2:
-				while ((value = pentagonal(i)) < 10000) {
-					if (value >= 1000)
-						pentagonals.add(value);
-					i++;
-				}
+				number = pentagonal(n);
 				break;
 			case 3:
-				while ((value = hexagonal(i)) < 10000) {
-					if (value >= 1000)
-						hexagonals.add(value);
-					i++;
-				}
+				number = hexagonal(n);
 				break;
 			case 4:
-				while ((value = heptagonal(i)) < 10000) {
-					if (value >= 1000)
-						heptagonals.add(value);
-					i++;
-				}
+				number= heptagonal(n);
 				break;
-			default:
-				while ((value = octagonal(i)) < 10000) {
-					if (value >= 1000)
-						octagonals.add(value);
-					i++;
-				}
+			case 5:
+				number = octagonal(n);
 				break;
 			}
+			n++;
+			if(number >= 1000)
+				results.add(number);
 		}
+		return results.toArray(new Integer[0]);
 	}
 
-	private long triangle(long input) {
+	private int triangle(int input) {
 		return (input * (input + 1)) / 2;
 	}
 
-	private long square(long input) {
+	private int square(int input) {
 		return input * input;
 	}
 
-	private long pentagonal(long input) {
+	private int pentagonal(int input) {
 		return (input * (3 * input - 1)) / 2;
 	}
 
-	private long hexagonal(long input) {
+	private int hexagonal(int input) {
 		return input * (2 * input - 1);
 	}
 
-	private long heptagonal(long input) {
-		return (input * (5 * input - 1)) / 2;
+	private int heptagonal(int input) {
+		return (input * (5 * input - 3)) / 2;
 	}
 
-	private long octagonal(long input) {
+	private int octagonal(int input) {
 		return input * (3 * input - 2);
 	}
 }
