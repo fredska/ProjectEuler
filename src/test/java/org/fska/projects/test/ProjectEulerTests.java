@@ -1,6 +1,7 @@
 package org.fska.projects.test;
 
 import org.fska.projects.problems1_99.prob_10_19.Problem10;
+import org.fska.projects.problems1_99.prob_10_19.Problem11;
 import org.fska.projects.problems1_99.prob_1_9.*;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -86,5 +87,32 @@ public class ProjectEulerTests {
         assertEquals(17l, testResult);
 
         System.out.println("Problem 10 Solution: " + Problem10.summationOfPrimes(2000000));
+    }
+
+    @Test
+    public void problem11_test() throws Exception {
+        /* This test is a bit more involved, as it's a 2D grid that needs to
+            search in multiple directions
+         */
+
+        String P11_TEST_GRID =
+                "08 02 22 97 " +
+                "49 49 99 40 " +
+                "81 49 31 73 " +
+                "52 70 95 23 ";
+
+        Problem11.largestProductInGrid(P11_TEST_GRID, 4);
+        //Up Direction
+        assertEquals(6514520, Problem11.getProduct(3,3, Problem11.DIRECTION.N));
+        assertEquals(24468444, Problem11.getProduct(0,3, Problem11.DIRECTION.NE));
+        assertEquals(7953400, Problem11.getProduct(0,3, Problem11.DIRECTION.E));
+        assertEquals(279496, Problem11.getProduct(0,0, Problem11.DIRECTION.SE));
+        assertEquals(336140, Problem11.getProduct(1,0, Problem11.DIRECTION.S));
+        assertEquals(24468444, Problem11.getProduct(3,0, Problem11.DIRECTION.SW));
+        assertEquals(8981847, Problem11.getProduct(3,2, Problem11.DIRECTION.W));
+        assertEquals(279496, Problem11.getProduct(3,3, Problem11.DIRECTION.NW));
+
+        //Run the real deal
+        System.out.println("Problem 11 solution: " + Problem11.largestProductInGrid(null, 20));
     }
 }
